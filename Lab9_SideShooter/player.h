@@ -18,8 +18,9 @@ public:
 	int getY() { return y; }
 	void removeLife() { lives--; }
 
-	int getLives() { return lives; }
-	void increaseScore() { score++; }
+	int getLives() { return lives; }	// returns lives for lives check
+	void increaseScore() { score++; }	//increases score :]
+	int getScore() { return score; }	//returns score!
 private:
 	int x;
 	int y;

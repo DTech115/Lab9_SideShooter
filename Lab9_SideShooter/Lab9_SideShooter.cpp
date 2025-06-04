@@ -46,7 +46,8 @@ int main(void)
 	al_init_font_addon();
 	al_init_ttf_addon();
 
-	ALLEGRO_FONT* font = al_load_font("DFPPOPCorn-W12.ttf", 24, 0);		//font
+	ALLEGRO_FONT* gameoverFont = al_load_font("DFPPOPCorn-W12.ttf", 32, 0);		//game font
+	ALLEGRO_FONT* mainFont = al_load_font("DFPPOPCorn-W12.ttf", 18, 0);		//font
 
 	//object variables
 	player myPlayer(HEIGHT);
@@ -87,8 +88,7 @@ int main(void)
 			for (int i = 0; i < NUM_ghostS; i++)
 				ghosts[i].Updateghost();
 			for (int i = 0; i < NUM_ArrowS; i++) {
-				Arrows[i].CollideArrow(ghosts, NUM_ghostS);
-				myPlayer.increaseScore();							// increases score upon hitting a ghost!!!
+				Arrows[i].CollideArrow(ghosts, myPlayer, NUM_ghostS);	//yoinks player to edit score
 			}
 			for (int i = 0; i < NUM_ghostS; i++)
 				ghosts[i].Collideghost(myPlayer);
@@ -163,7 +163,8 @@ int main(void)
 				ghosts[i].Drawghost();
 
 			if (gameOver) {			// checks if gameover & ends game if so D:
-				al_draw_text(font, al_map_rgb(255, 200, 200), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "GAME OVER!");
+				al_draw_text(gameoverFont, al_map_rgb(255, 100, 200), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "GAME OVER!");
+				al_draw_textf(mainFont, al_map_rgb(255, 200, 200), WIDTH / 2, (HEIGHT / 2) + 50, ALLEGRO_ALIGN_CENTER, "GHOSTS VANQUISHED: %i", myPlayer.getScore());
 				al_flip_display();
 				al_rest(5);
 				done = true;
@@ -174,6 +175,8 @@ int main(void)
 		}
 	}
 
+	al_destroy_font(gameoverFont);
+	al_destroy_font(mainFont);
 	al_destroy_event_queue(event_queue);
 	al_destroy_timer(timer);
 	al_destroy_display(display);						//destroy our display object

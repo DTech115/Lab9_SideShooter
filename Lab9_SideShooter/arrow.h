@@ -11,7 +11,7 @@ public:
 	void DrawArrow();
 	void FireArrow(player& Player);
 	void UpdateArrow(int WIDTH);
-	void CollideArrow(ghost ghosts[], int cSize);
+	void CollideArrow(ghost ghosts[], player& Player, int cSize);	//takes player too now
 private:
 	int x;
 	int y;

@@ -36,6 +36,9 @@ void player::DrawPlayer()
 {
 	if (lives >= 5) {
 		al_draw_bitmap(image, x, y, 0);
+		for (int i = 0; i < lives; i++) {
+			//al_draw_bitmap(image, x, y, 0);
+		}
 	}
 	else if (lives == 4) {
 		al_draw_bitmap(image1, x, y, 0);
