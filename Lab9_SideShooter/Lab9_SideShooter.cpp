@@ -3,6 +3,9 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_image.h>
+#include <allegro5\allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
 #include "player.h"
 #include "ghost.h"
 #include "Arrow.h"
@@ -28,6 +31,7 @@ int main(void)
 	ALLEGRO_DISPLAY* display = NULL;
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer = NULL;
+	ALLEGRO_FONT* font = al_load_font("DFPPOPCorn-W12.ttf", 24, 0);
 
 	//Initialization Functions
 	if (!al_init())										//initialize Allegro
@@ -79,10 +83,17 @@ int main(void)
 				ghosts[i].Startghost(WIDTH, HEIGHT);
 			for (int i = 0; i < NUM_ghostS; i++)
 				ghosts[i].Updateghost();
-			for (int i = 0; i < NUM_ArrowS; i++)
+			for (int i = 0; i < NUM_ArrowS; i++) {
 				Arrows[i].CollideArrow(ghosts, NUM_ghostS);
+				myPlayer.increaseScore();							// increases score upon hitting a ghost!!!
+			}
 			for (int i = 0; i < NUM_ghostS; i++)
 				ghosts[i].Collideghost(myPlayer);
+
+			if (myPlayer.getLives() <= 0) {			// checks if the player is out of lives & ends game if so D:
+				done = true;
+				al_rest(5);
+			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
