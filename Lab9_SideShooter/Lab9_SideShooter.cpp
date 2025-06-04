@@ -25,13 +25,12 @@ int main(void)
 	bool done = false;
 	bool redraw = true;
 	const int FPS = 60;
-
+	bool gameOver = false; //	gameover check for drawing gameover text
 
 	//Allegro variables
 	ALLEGRO_DISPLAY* display = NULL;
 	ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 	ALLEGRO_TIMER* timer = NULL;
-	ALLEGRO_FONT* font = al_load_font("DFPPOPCorn-W12.ttf", 24, 0);
 
 	//Initialization Functions
 	if (!al_init())										//initialize Allegro
@@ -44,6 +43,10 @@ int main(void)
 
 	al_install_keyboard();
 	al_init_image_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
+
+	ALLEGRO_FONT* font = al_load_font("DFPPOPCorn-W12.ttf", 24, 0);		//font
 
 	//object variables
 	player myPlayer(HEIGHT);
@@ -90,9 +93,8 @@ int main(void)
 			for (int i = 0; i < NUM_ghostS; i++)
 				ghosts[i].Collideghost(myPlayer);
 
-			if (myPlayer.getLives() <= 0) {			// checks if the player is out of lives & ends game if so D:
-				done = true;
-				al_rest(5);
+			if (myPlayer.getLives() <= 0) {			// checks if the player is out of lives & passes gameover if so D:
+				gameOver = true;
 			}
 		}
 		else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -159,6 +161,13 @@ int main(void)
 				Arrows[i].DrawArrow();
 			for (int i = 0; i < NUM_ghostS; i++)
 				ghosts[i].Drawghost();
+
+			if (gameOver) {			// checks if gameover & ends game if so D:
+				al_draw_text(font, al_map_rgb(255, 200, 200), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "GAME OVER!");
+				al_flip_display();
+				al_rest(5);
+				done = true;
+			}
 
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
