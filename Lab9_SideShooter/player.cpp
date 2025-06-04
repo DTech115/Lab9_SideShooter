@@ -32,13 +32,12 @@ player::player(int HEIGHT)
 	boundy = al_get_bitmap_height(image);
 	score = 0;
 }
+
+// depending on the lives, a different kirby image is drawn!
 void player::DrawPlayer()
 {
 	if (lives >= 5) {
 		al_draw_bitmap(image, x, y, 0);
-		for (int i = 0; i < lives; i++) {
-			//al_draw_bitmap(image, x, y, 0);
-		}
 	}
 	else if (lives == 4) {
 		al_draw_bitmap(image1, x, y, 0);
@@ -51,6 +50,12 @@ void player::DrawPlayer()
 	}
 	else if (lives <= 1) {
 		al_draw_bitmap(image4, x, y, 0);
+	}
+
+	//	draws kirby at the top left to represent his lives! each one is drawn a little to the right of the last
+	//	when lives go down, they are redrawn with one less.
+	for (int i = 0; i < lives; i++) {
+		al_draw_scaled_bitmap(image, 0, 0, al_get_bitmap_width(image), al_get_bitmap_height(image), 20 + (i * 40), 20, 32, 32, 0);
 	}
 }
 void player::MoveUp()
