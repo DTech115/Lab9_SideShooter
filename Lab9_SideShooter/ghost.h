@@ -1,3 +1,5 @@
+//DT Nesimi
+
 #ifndef GHOSTH
 #define GHOSTH
 #include "player.h"

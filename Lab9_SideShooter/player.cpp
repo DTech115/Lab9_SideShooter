@@ -1,3 +1,5 @@
+//DT Nesimi
+
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_primitives.h>
 #include <allegro5\allegro_image.h>
@@ -11,7 +13,7 @@ player::~player()
 player::player(int HEIGHT)
 {
 
-	image = al_load_bitmap("Kirby.png");
+	image = al_load_bitmap("Kirby0.png");
 	x = 20;
 	y = HEIGHT / 2;
 	lives = 5;
@@ -33,8 +35,8 @@ void player::MoveUp()
 void player::MoveDown(int HEIGHT)
 {
 	y += speed;
-	if (y > HEIGHT)
-		y = HEIGHT;
+	if (y > HEIGHT-boundy)
+		y = HEIGHT-boundy;
 }
 void player::MoveLeft()
 {
